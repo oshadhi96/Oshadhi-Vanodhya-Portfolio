@@ -1,0 +1,340 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Core Foundation - Deep Ocean Theme (Dark Default) */
+  --font-size: 16px;
+  
+  /* Semantic Colors */
+  --background: #020617; /* Slate-950 */
+  --foreground: #f8fafc; /* Slate-50 */
+  
+  --card: #0f172a; /* Slate-900 */
+  --card-foreground: #f8fafc;
+  
+  --popover: #0f172a;
+  --popover-foreground: #f8fafc;
+  
+  --primary: #8b5cf6; /* Violet-500 */
+  --primary-foreground: #ffffff;
+  
+  --secondary: #1e293b; /* Slate-800 */
+  --secondary-foreground: #f8fafc;
+  
+  --muted: #1e293b; /* Slate-800 */
+  --muted-foreground: #94a3b8; /* Slate-400 */
+  
+  --accent: #a78bfa; /* Violet-400 */
+  --accent-foreground: #020617;
+  
+  --destructive: #ef4444; /* Red-500 */
+  --destructive-foreground: #ffffff;
+  
+  --success: #22c55e; /* Green-500 */
+  --warning: #eab308; /* Yellow-500 */
+  --error: #ef4444;   /* Red-500 */
+
+  --border: #1e293b; /* Slate-800 */
+  --input: #1e293b;
+  --ring: #8b5cf6;
+  
+  /* Typography Tokens */
+  --font-heading: 'Newsreader', serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  
+  /* Radius & Spacing Scale Reference */
+  /* Spacing: 1=0.25rem(4px), 2=0.5rem(8px), 4=1rem(16px)... matches Tailwind defaults */
+  --radius: 0.75rem; /* 12px default radius */
+  
+  /* Chart Colors (Mapped to theme) */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  --sidebar: #0f172a;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #8b5cf6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: #1e293b;
+  --sidebar-ring: #8b5cf6;
+}
+
+/* Light Mode Overrides (Optional, if user wants toggle, but design is dark-first) */
+.light {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #7c3aed; /* Violet-600 */
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9; /* Slate-100 */
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #7c3aed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --font-serif: var(--font-heading);
+  --font-sans: var(--font-body);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans overflow-x-hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+
+  /* Accessibility: Global Focus Styles */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-teal-500;
+  }
+
+  /* Accessibility: Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Hero Section Animations & Styles */
+@layer components {
+  /* Keyframe Animations */
+  @keyframes beam {
+    0% { stroke-dashoffset: 1000; }
+    100% { stroke-dashoffset: 0; }
+  }
+  
+  @keyframes sonar-wave {
+    0% { r: 10px; opacity: 0.8; stroke-width: 1px; }
+    100% { r: 80px; opacity: 0; stroke-width: 0px; }
+  }
+  
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes spin-slow-reverse {
+    to { transform: rotate(-360deg); }
+  }
+  
+  @keyframes border-spin {
+    to { --gradient-angle: 360deg; }
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  /* Animation Classes */
+  .animate-beam {
+    animation: beam 3s linear infinite;
+  }
+  
+  .animate-sonar {
+    animation: sonar-wave 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  
+  .animate-spin-slow {
+    animation: spin-slow 12s linear infinite;
+  }
+  
+  .animate-spin-slow-reverse {
+    animation: spin-slow-reverse 15s linear infinite;
+  }
+  
+  .float-slow {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .float-delayed {
+    animation: float 7s ease-in-out infinite 2s;
+  }
+  
+  /* Utility Classes */
+  .beam-line {
+    stroke-dasharray: 80 1000;
+    stroke-linecap: round;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+  }
+  
+  /* Shiny CTA Button */
+  @property --gradient-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+  
+  @property --gradient-angle-offset {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+  
+  @property --gradient-percent {
+    syntax: "<percentage>";
+    initial-value: 20%;
+    inherits: false;
+  }
+  
+  @property --gradient-shine {
+    syntax: "<color>";
+    initial-value: #a78bfa;
+    inherits: false;
+  }
+  
+  .shiny-cta {
+    --gradient-angle: 0deg;
+    --gradient-angle-offset: 0deg;
+    --gradient-percent: 20%;
+    --gradient-shine: #a78bfa;
+    position: relative;
+    overflow: hidden;
+    border-radius: 9999px;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(#7c3aed, #181139) padding-box,
+      conic-gradient(
+        from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
+        transparent 0%,
+        #7c3aed 5%,
+        var(--gradient-shine) 15%,
+        #7c3aed 30%,
+        transparent 40%,
+        transparent 100%
+      ) border-box;
+    border: 2px solid transparent;
+    box-shadow: inset 0 0 0 1px #1a1818;
+    transition: --gradient-angle-offset 400ms cubic-bezier(0.25, 1, 0.5, 1),
+                --gradient-percent 400ms cubic-bezier(0.25, 1, 0.5, 1),
+                --gradient-shine 400ms cubic-bezier(0.25, 1, 0.5, 1),
+                box-shadow 0.3s;
+    animation: border-spin 2.5s linear infinite;
+  }
+  
+  .shiny-cta::before {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15), transparent 70%);
+  }
+  
+  /* Avatar Glow Border */
+  .avatar-glow {
+    position: relative;
+  }
+  
+  .avatar-glow::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 9999px;
+    padding: 2px;
+    background: conic-gradient(
+      from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
+      transparent 0%,
+      #7c3aed 5%,
+      var(--gradient-shine) 15%,
+      #7c3aed 30%,
+      transparent 40%,
+      transparent 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: border-spin 2.5s linear infinite;
+  }
+  
+  .group:hover .avatar-glow::before {
+    opacity: 1;
+  }
+}
+
+/* Custom Cursor Styles */
+@layer base {
+  /* Hide default cursor on non-touch devices */
+  .custom-cursor-active * {
+    cursor: none !important;
+  }
+  
+  /* Override for inputs and textareas */
+  .custom-cursor-active input,
+  .custom-cursor-active textarea {
+    cursor: text !important;
+  }
+}
