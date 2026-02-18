@@ -35,23 +35,14 @@ import { IfsAiGuestOverview } from "./components/case-studies/IfsAiGuestOverview
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
-  // This automatically matches Vite's BASE_URL:
-  // - localhost: "/"
-  // - GitHub Pages project site: "/Oshadhi-Vanodhya-Portfolio/"
-  // - custom domain: "/"
-  const base = import.meta.env.BASE_URL;
-
-  useEffect(() => {
-    // optional: keep if you plan to add startup logic later
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <AuthProvider>
-      <Router basename={base}>
+      <Router>
         {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
         <ScrollToTop />
         <CustomCursor />
-
         <div className="min-h-screen bg-[#020617] text-slate-50 font-sans selection:bg-violet-500/30 selection:text-violet-200 [overflow-x:clip] relative">
           {/* Global Background Effects */}
           <div className="fixed inset-0 z-0 pointer-events-none">
@@ -62,7 +53,6 @@ export default function App() {
           {/* Content */}
           <div className="relative z-20 mt-0 pt-0">
             <Navbar />
-
             <PageTransition>
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -116,7 +106,6 @@ export default function App() {
                 />
               </Routes>
             </PageTransition>
-
             <Footer />
           </div>
         </div>
