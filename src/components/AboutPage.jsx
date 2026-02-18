@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "motion/react";
 import {
   ArrowRight,
@@ -24,6 +23,12 @@ import { SkillsSection } from "./SkillsSection";
 import { SkillsGraph } from "./SkillsGraph";
 import { CareerHighlights } from "./CareerHighlights";
 
+// ✅ Vite-friendly images:
+// Option A: put images in /src/assets and import like this:
+// import profileImage from "../assets/profile.png";
+// Option B: put images in /public and use string paths like "/images/profile.png"
+
+// ---- Replace these with your real paths ----
 import profileImage from "figma:asset/55b0832fbd1bb098b6f6961c22eaa1a1bb63c6b2.png";
 import mcgImage from "figma:asset/d80010668a032127fd2a112275edb4f656b5fb2c.png";
 import gangImage from "figma:asset/06f507965d4651157b1f7f6451d3420a17210432.png";
@@ -32,10 +37,8 @@ import concertImage from "figma:asset/47aa556c3faf518dd1720b34a490f2875487e8a8.p
 import ceilingImage from "figma:asset/cdc485201be523d2faad1eae43ff3ae56478a204.png";
 import oceanImage from "figma:asset/0505d1faed5a922095c6ea3f080f65fd51459bc2.png";
 import beachImage from "figma:asset/3b0a6b6817c3a7b97a4e82e7d82ae23ef914c091.png";
+// ------------------------------------------
 
-/**
- * ✅ JS-only version (no TS types)
- */
 const InfiniteLoopSlider = ({ children, duration, reverse = false }) => {
   return (
     <div className="flex w-full overflow-hidden">
@@ -98,7 +101,7 @@ export function AboutPage() {
       role: "Senior UX Designer",
       company: "IFS",
       description:
-        "IFS Cloud Project Mgmt, IFS Cloud Sustainability Mgmt, ifs.ai Developer Portal, IFS HCM",
+        "IFS Cloud Project Mgmt, IFS Cloud Sustainability Mgmt,  ifs.ai Developer Portal, IFS HCM",
     },
     {
       year: "2021",
@@ -199,6 +202,21 @@ export function AboutPage() {
                 </ul>
               </div>
             </div>
+
+            {/* (commented block kept as-is) */}
+            {/* 
+            <div className="flex flex-wrap gap-4 pt-4">
+              <div className="flex items-center gap-2 text-sm text-slate-500 border border-white/10 rounded-full px-4 py-2 hover:border-teal-500/30 transition-colors bg-white/5">
+                <MapPin className="w-4 h-4 text-teal-500" />
+                Colombo, Sri Lanka (Remote)
+              </div>
+
+              <div className="flex items-center gap-2 text-sm text-slate-500 border border-white/10 rounded-full px-4 py-2 hover:border-teal-500/30 transition-colors bg-white/5">
+                <Coffee className="w-4 h-4 text-teal-500" />
+                ENTP-T
+              </div>
+            </div>
+            */}
           </motion.div>
 
           <motion.div
@@ -208,11 +226,14 @@ export function AboutPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="relative group perspective-1000">
+              {/* Decorative background glow */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-teal-500/10 blur-[60px] rounded-full opacity-50 pointer-events-none" />
 
               <div className="relative w-64 sm:w-72 lg:w-80 aspect-[3/4]">
+                {/* Decorative Offset Border */}
                 <div className="absolute inset-0 border border-teal-500/20 rounded-full translate-x-3 translate-y-3 transition-transform duration-500 group-hover:translate-x-5 group-hover:translate-y-5" />
 
+                {/* Main Image Container - Pill Shape */}
                 <div className="absolute inset-0 rounded-full overflow-hidden border border-white/10 bg-slate-800 shadow-2xl relative z-10 transition-transform duration-500 group-hover:-translate-y-1">
                   <motion.img
                     src={profileImage}
@@ -231,7 +252,6 @@ export function AboutPage() {
                       ease: "easeInOut",
                     }}
                   />
-
                   <motion.div
                     className="absolute inset-0 bg-teal-500/30 mix-blend-soft-light z-10"
                     animate={{ opacity: [0, 1, 0] }}
@@ -242,6 +262,7 @@ export function AboutPage() {
                     }}
                   />
 
+                  {/* Inner Gradient Overlay */}
                   <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-full bg-gradient-to-t from-slate-900/30 to-transparent pointer-events-none" />
                 </div>
               </div>
@@ -254,8 +275,185 @@ export function AboutPage() {
       <CareerHighlights />
 
       <main className="container mx-auto max-w-8xl px-4 sm:px-6 lg:px-8 space-y-32 pt-20 relative">
-        {/* keep the rest of your page exactly as you already had it */}
-        {/* ... your remaining sections ... */}
+        {/* 2. HOW I ADD VALUE */}
+        <section className="relative hidden md:block">
+          <div className="flex items-center gap-3 mb-12">
+            <span className="h-px w-8 bg-teal-500/50"></span>
+            <span className="text-teal-400 uppercase tracking-widest text-sm font-bold not-italic">
+              How I add value
+            </span>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {valueProps.map((prop, idx) => {
+              const Icon = prop.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="bg-slate-900/50 p-8 rounded-2xl border border-white/5 hover:border-teal-500/30 transition-colors group"
+                >
+                  <div className="w-12 h-12 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-400 mb-6 group-hover:scale-110 transition-transform">
+                    <Icon className="w-6 h-6" />
+                  </div>
+
+                  <h3 className="text-xl font-bold text-white mb-3 italic">
+                    {prop.title}
+                  </h3>
+                  <p className="text-slate-400 leading-relaxed">
+                    {prop.description}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* 3. WHAT DRIVES ME */}
+        <section className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="space-y-8">
+            <h2 className="text-3xl md:text-4xl font-serif text-white italic">
+              What drives me
+            </h2>
+
+            <p className="text-lg text-slate-400 leading-relaxed">
+              Designing with empathy, collaborating across functions, spotting
+              untapped UX opportunities, and elevating design maturity through
+              systems, data, and education.
+            </p>
+
+            <p className="text-lg text-slate-400 leading-relaxed">
+              I'm passionate about educating stakeholders and helping aspiring
+              designers with education and mentorship. Not only it's the most
+              rewarding job on earth, but it also helps me to reflect and become
+              a better designer.
+            </p>
+
+            <div className="pt-4 space-y-3">
+              <p className="text-teal-400 italic font-serif">
+                'You bring a fresh, strategic perspective.'
+              </p>
+              <p className="text-teal-400 italic font-serif">
+                'Your user advocacy improves our solutions.'
+              </p>
+              <p className="text-teal-400 italic font-serif">
+                'You think ahead, ask the right questions, and influence with
+                clarity.'
+              </p>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/20 to-purple-500/20 blur-3xl rounded-full opacity-50" />
+
+            <div className="relative z-10 grid grid-cols-2 gap-4">
+              <div className="space-y-4 pt-8">
+                <img
+                  src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=600"
+                  alt="Working"
+                  className="rounded-2xl grayscale hover:grayscale-0 transition-all duration-500 object-cover aspect-[3/4]"
+                />
+              </div>
+
+              <div className="space-y-4">
+                <img
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600"
+                  alt="Brainstorming"
+                  className="rounded-2xl grayscale hover:grayscale-0 transition-all duration-500 object-cover aspect-[3/4]"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3.5 WHAT TEAMS GET */}
+        <section className="relative hidden md:block">
+          <div className="flex items-center gap-3 mb-12">
+            <span className="h-px w-8 bg-teal-500/50"></span>
+            <span className="text-teal-400 uppercase tracking-widest text-sm font-bold">
+              Startup Mindset
+            </span>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-serif text-white mb-12 italic">
+            What teams get when I join
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/5 hover:border-teal-500/30 transition-colors group">
+              <div className="w-12 h-12 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-400 mb-6 group-hover:scale-110 transition-transform">
+                <Compass className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3 not-italic">
+                Clarity under constraints
+              </h3>
+              <p className="text-slate-400 leading-relaxed">
+                I untangle complex workflows, align stakeholders, and ship
+                interfaces teams can adopt quickly.
+              </p>
+            </div>
+
+            <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/5 hover:border-teal-500/30 transition-colors group">
+              <div className="w-12 h-12 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-400 mb-6 group-hover:scale-110 transition-transform">
+                <Cpu className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3 not-italic">
+                AI experience that earns trust
+              </h3>
+              <p className="text-slate-400 leading-relaxed">
+                I translate abstract AI capabilities into understandable, usable
+                flows — especially in developer and SaaS contexts.
+              </p>
+            </div>
+
+            <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/5 hover:border-teal-500/30 transition-colors group">
+              <div className="w-12 h-12 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-400 mb-6 group-hover:scale-110 transition-transform">
+                <Users className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3 not-italic">
+                Leadership that multiplies impact
+              </h3>
+              <p className="text-slate-400 leading-relaxed">
+                Workshops, mentoring, and design strategy that raises UX
+                maturity across teams.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 4. TIMELINE */}
+        <section className="max-w-3xl mx-auto hidden md:block">
+          <h2 className="text-3xl font-serif text-white mb-12 text-center italic">
+            Journey so far
+          </h2>
+
+          <div className="relative space-y-12 pl-8 border-l border-white/10">
+            {timeline.map((item, idx) => (
+              <div key={idx} className="relative">
+                <div className="absolute -left-[37px] top-2 w-4 h-4 rounded-full bg-[#020617] border-2 border-teal-500" />
+
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2">
+                  <h3 className="text-xl font-bold text-white">{item.role}</h3>
+                  <span className="text-sm font-mono text-teal-400">
+                    {item.year}
+                  </span>
+                </div>
+                <div className="text-lg text-slate-200 mb-2">
+                  {item.company}
+                </div>
+                <p className="text-slate-400 leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 5. SKILLS */}
+        <SkillsGraph />
+        <SkillsSection />
 
         {/* 6. PERSONAL INTERESTS REEL */}
         <section className="py-20 overflow-hidden relative">
