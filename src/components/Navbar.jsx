@@ -1,12 +1,13 @@
-import { Menu, X, Download } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import { motion, AnimatePresence } from "motion/react";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,7 +17,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu when screen is resized to desktop
+  // Close mobile menu on resize
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024 && isOpen) {
@@ -29,11 +30,7 @@ export function Navbar() {
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -47,6 +44,15 @@ export function Navbar() {
     { name: "Resources", href: "/resources" },
   ];
 
+  // Smooth scroll handler
+  const handleHashScroll = (hash) => {
+    const elementId = hash.replace("#", "");
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <>
       <nav
@@ -58,6 +64,7 @@ export function Navbar() {
       >
         <div className="relative rounded-full border border-white/10 bg-[#020617]/80 backdrop-blur-xl shadow-[0_4px_20px_-1px_rgba(0,0,0,0.3)] px-6 py-2">
           <div className="flex items-center justify-between">
+            {/* Logo */}
             <div className="flex items-center gap-2">
               <Link
                 to="/"
@@ -79,88 +86,28 @@ export function Navbar() {
               <ul className="flex items-center gap-6 list-none m-0 p-0">
                 {navLinks.map((link) => (
                   <li key={link.name}>
-                    {link.href.startsWith("/#") &&
-                    link.name !== "Speaking & Journal" ? (
-                      <Link
-                        to={link.name === "Work" ? "/work" : link.href}
+                    {link.isHash ? (
+                      <a
+                        href={link.href}
                         className="text-sm font-medium text-slate-300 hover:text-violet-400 transition-colors relative group inline-block py-3 px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded-sm"
                         onClick={(e) => {
-                          if (link.name === "Work") return;
-
-                          const elementId = link.href.replace("/#", "");
-
-                          // If we're not on the home page, navigate there first
-                          if (window.location.pathname !== "/") {
-                            // Let the Link component handle navigation to home
-                            setTimeout(() => {
-                              const element =
-                                document.getElementById(elementId);
-                              if (element) {
-                                element.scrollIntoView({
-                                  behavior: "smooth",
-                                  block: "start",
-                                });
-                              }
-                            }, 300);
+                          e.preventDefault();
+                          if (location.pathname !== "/") {
+                            // Navigate to home first
+                            window.location.href =
+                              "/#" + link.href.replace("#", "");
                           } else {
-                            // Already on home page, just scroll
-                            e.preventDefault();
-                            const element = document.getElementById(elementId);
-                            if (element) {
-                              element.scrollIntoView({
-                                behavior: "smooth",
-                                block: "start",
-                              });
-                            }
+                            handleHashScroll(link.href);
                           }
                         }}
                       >
                         {link.name}
                         <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-violet-500 transition-all duration-300 group-hover:w-full"></span>
-                      </Link>
+                      </a>
                     ) : (
                       <Link
-                        to={
-                          link.name === "Speaking & Journal"
-                            ? "/journal"
-                            : link.href
-                        }
+                        to={link.href}
                         className="text-sm font-medium text-slate-300 hover:text-violet-400 transition-colors relative group inline-block py-3 px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded-sm"
-                        onClick={(e) => {
-                          if (link.name === "Speaking & Journal") return;
-
-                          // Only apply hash link logic if this is actually a hash link
-                          if (link.href.startsWith("/#")) {
-                            const elementId = link.href.replace("/#", "");
-
-                            // If we're not on the home page, navigate there first
-                            if (window.location.pathname !== "/") {
-                              // Let the Link component handle navigation to home
-                              setTimeout(() => {
-                                const element =
-                                  document.getElementById(elementId);
-                                if (element) {
-                                  element.scrollIntoView({
-                                    behavior: "smooth",
-                                    block: "start",
-                                  });
-                                }
-                              }, 300);
-                            } else {
-                              // Already on home page, just scroll
-                              e.preventDefault();
-                              const element =
-                                document.getElementById(elementId);
-                              if (element) {
-                                element.scrollIntoView({
-                                  behavior: "smooth",
-                                  block: "start",
-                                });
-                              }
-                            }
-                          }
-                          // For regular routes like /about and /resources, let Link handle navigation normally
-                        }}
                       >
                         {link.name}
                         <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-violet-500 transition-all duration-300 group-hover:w-full"></span>
@@ -175,25 +122,13 @@ export function Navbar() {
                 aria-hidden="true"
               ></div>
 
-              <div className="flex items-center gap-3">
-                {/* 
-                <Link 
-                  to="/resume" 
-                  className="text-sm font-medium text-slate-300 hover:text-white flex items-center gap-2 transition-colors"
-                  aria-label="Download CV"
-                >
-                  <Download className="h-4 w-4" />
-                  <span className="hidden xl:inline">CV</span>
-                </Link> 
-                */}
-                <Button
-                  asChild
-                  size="sm"
-                  className="rounded-full bg-white text-slate-900 hover:bg-violet-50 hover:text-violet-900 font-medium px-6 focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
-                >
-                  <Link to="/contact">Contact</Link>
-                </Button>
-              </div>
+              <Button
+                asChild
+                size="sm"
+                className="rounded-full bg-white text-slate-900 hover:bg-violet-50 hover:text-violet-900 font-medium px-6 focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+              >
+                <Link to="/contact">Contact</Link>
+              </Button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -239,41 +174,18 @@ export function Navbar() {
               <ul className="flex flex-col gap-6 list-none m-0 p-0">
                 {navLinks.map((link) => (
                   <li key={link.name}>
-                    {link.href.startsWith("/#") ? (
+                    {link.isHash ? (
                       <a
-                        href={
-                          link.name === "Work"
-                            ? "/work"
-                            : link.name === "Testimonials"
-                              ? "/#kind-words"
-                              : link.href
-                        }
+                        href={link.href}
                         className="text-2xl font-serif italic text-slate-300 hover:text-violet-400 block py-2 border-b border-white/5"
                         onClick={(e) => {
+                          e.preventDefault();
                           setIsOpen(false);
-                          const targetHref =
-                            link.name === "Work"
-                              ? "/work"
-                              : link.name === "Testimonials"
-                                ? "/#kind-words"
-                                : link.href;
-
-                          if (
-                            targetHref.startsWith("/#") &&
-                            window.location.pathname === "/"
-                          ) {
-                            e.preventDefault();
-                            const elementId = targetHref.replace("/#", "");
-                            setTimeout(() => {
-                              const element =
-                                document.getElementById(elementId);
-                              if (element) {
-                                element.scrollIntoView({
-                                  behavior: "smooth",
-                                  block: "start",
-                                });
-                              }
-                            }, 300);
+                          if (location.pathname !== "/") {
+                            window.location.href =
+                              "/#" + link.href.replace("#", "");
+                          } else {
+                            handleHashScroll(link.href);
                           }
                         }}
                       >
@@ -292,26 +204,14 @@ export function Navbar() {
                 ))}
               </ul>
 
-              <div className="flex flex-col gap-4 mt-4">
-                {/* 
-                <Link 
-                  to="/resume" 
-                  className="flex items-center gap-2 text-lg font-medium text-slate-300 hover:text-white"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Download className="h-5 w-5" />
-                  Download CV
-                </Link> 
-                */}
-                <Button
-                  asChild
-                  className="w-full rounded-full bg-violet-600 text-white hover:bg-violet-700 h-12 text-lg"
-                >
-                  <Link to="/contact" onClick={() => setIsOpen(false)}>
-                    Contact Me
-                  </Link>
-                </Button>
-              </div>
+              <Button
+                asChild
+                className="w-full rounded-full bg-violet-600 text-white hover:bg-violet-700 h-12 text-lg"
+              >
+                <Link to="/contact" onClick={() => setIsOpen(false)}>
+                  Contact Me
+                </Link>
+              </Button>
             </div>
           </motion.div>
         )}
