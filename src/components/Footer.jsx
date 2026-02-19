@@ -1,8 +1,8 @@
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 import { Github, Linkedin, Mail, Instagram } from "lucide-react";
 import { Button } from "./ui/button";
 
-// Medium icon not in lucide-react standard set, using a simple SVG equivalent or Lucide placeholder
+// Medium icon
 const Medium = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -34,13 +34,12 @@ const Behance = ({ className }) => (
   </svg>
 );
 
-// Static data - created once at module load
 const CURRENT_YEAR = new Date().getFullYear();
 
 const QUICK_LINKS = [
   { name: "Home", href: "/", targetId: null },
-  { name: "Work", href: "/work", targetId: "workpage" },
-  { name: "Speaking", href: "/journal", targetId: "speakingjournalpage" },
+  { name: "Work", href: "/work", targetId: null },
+  { name: "Speaking", href: "/journal", targetId: null },
   { name: "About", href: "/about", targetId: null },
   { name: "Resources", href: "/resources", targetId: null },
   { name: "Contact", href: "/contact", targetId: null },
@@ -79,7 +78,7 @@ const SOCIAL_LINKS = [
   },
 ];
 
-// Helper function to handle smooth scroll - extracted from inline
+// Smooth scroll helper
 const handleSmoothScroll = (e, targetId) => {
   if (window.location.pathname === "/") {
     e.preventDefault();
@@ -91,9 +90,7 @@ const handleSmoothScroll = (e, targetId) => {
 };
 
 export function Footer() {
-  // Memoized click handler for navigation links
   const handleNavClick = useCallback((e, link) => {
-    // Handle Home link
     if (link.name === "Home") {
       if (window.location.pathname === "/") {
         e.preventDefault();
@@ -102,7 +99,6 @@ export function Footer() {
       return;
     }
 
-    // Let page navigation links work normally
     if (
       link.name === "Contact" ||
       link.name === "Resources" ||
@@ -111,7 +107,6 @@ export function Footer() {
       return;
     }
 
-    // Handle anchor links with smooth scroll
     if (link.targetId) {
       handleSmoothScroll(e, link.targetId);
     }
@@ -124,7 +119,7 @@ export function Footer() {
     >
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Brand & Positioning */}
+          {/* Brand */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div className="flex items-center gap-2">
               <span className="h-10 w-10 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 flex items-center justify-center text-white font-bold text-lg shadow-inner shadow-white/20">
@@ -174,7 +169,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Socials */}
+          {/* Social Links */}
           <div className="lg:col-span-3">
             <h3 className="text-white font-medium mb-6 uppercase tracking-wider text-sm opacity-80">
               Connect
@@ -203,7 +198,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Bottom */}
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500 font-light">
           <p className="text-[rgb(156,169,186)]">
             &copy; {CURRENT_YEAR} Oshadhi Vanodhya. Built by Oshi with ♥️
@@ -214,7 +209,7 @@ export function Footer() {
               className="flex items-center gap-1.5 text-[rgb(156,168,186)] text-[13px]"
               title="Web Content Accessibility Guidelines 2.1 AA Compliant"
             >
-              <span className="h-2 w-2 rounded-full bg-yellow-500/80 text-[rgb(186,179,156)]"></span>
+              <span className="h-2 w-2 rounded-full bg-yellow-500/80"></span>
               WCAG 2.1 AA Accessible
             </span>
             <a
