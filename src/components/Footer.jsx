@@ -1,4 +1,5 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Github, Linkedin, Mail, Instagram } from "lucide-react";
 
 // Medium icon
@@ -64,7 +65,16 @@ const SOCIAL_LINKS = [
   { name: "GitHub", icon: Github, href: "https://github.com/oshadhi-vanodhya" },
 ];
 
+// Smooth scroll for Home
+const handleSmoothScroll = () => {
+  if (window.location.pathname === "/") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+};
+
 export const Footer = memo(() => {
+  const location = useLocation();
+
   return (
     <footer className="bg-[#020617] border-t border-white/5 pt-20 pb-8 relative">
       <div className="container mx-auto px-4 md:px-6">
@@ -103,12 +113,21 @@ export const Footer = memo(() => {
             <ul className="space-y-4">
               {QUICK_LINKS.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-slate-400 hover:text-violet-400 transition-colors"
-                  >
-                    {link.name}
-                  </a>
+                  {link.name === "Home" && location.pathname === "/" ? (
+                    <button
+                      onClick={handleSmoothScroll}
+                      className="text-slate-400 hover:text-violet-400 transition-colors"
+                    >
+                      {link.name}
+                    </button>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className="text-slate-400 hover:text-violet-400 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
