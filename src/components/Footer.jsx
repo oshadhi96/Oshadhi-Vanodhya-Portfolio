@@ -78,45 +78,31 @@ const SOCIAL_LINKS = [
   },
 ];
 
-// Smooth scroll helper
+// Smooth scroll helper (only for home page)
 const handleSmoothScroll = (e, targetId) => {
   if (window.location.pathname === "/") {
     e.preventDefault();
     const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    if (element) element.scrollIntoView({ behavior: "smooth" });
   }
 };
 
-export function Footer() {
+export const Footer = memo(() => {
   const handleNavClick = useCallback((e, link) => {
-    if (link.name === "Home") {
-      if (window.location.pathname === "/") {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-      return;
-    }
-
-    if (
-      link.name === "Contact" ||
-      link.name === "Resources" ||
-      link.name === "About"
-    ) {
+    if (link.name === "Home" && window.location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
     if (link.targetId) {
       handleSmoothScroll(e, link.targetId);
     }
+    // Links to other pages will just use normal anchor navigation
   }, []);
 
   return (
-    <footer
-      id="footer"
-      className="bg-[#020617] border-t border-white/5 pt-20 pb-8 relative overflow-hidden"
-    >
+    <footer className="bg-[#020617] border-t border-white/5 pt-20 pb-8 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Brand */}
@@ -223,4 +209,4 @@ export function Footer() {
       </div>
     </footer>
   );
-}
+});
