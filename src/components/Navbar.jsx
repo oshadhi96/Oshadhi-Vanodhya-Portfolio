@@ -239,32 +239,49 @@ export function Navbar() {
               <ul className="flex flex-col gap-6 list-none m-0 p-0">
                 {navLinks.map((link) => (
                   <li key={link.name}>
-                    {link.href.startsWith("/#") ? (
+                    {link.name === "Testimonials" ? (
+                      // Special handling for Testimonials which is a hash link on home page
                       <Link
-                        to={link.href} // Always use the original href
+                        to="/#kind-words"
                         className="text-2xl font-serif italic text-slate-300 hover:text-violet-400 block py-2 border-b border-white/5"
                         onClick={(e) => {
                           setIsOpen(false);
 
-                          // If it's a hash link and we're on the home page, handle scroll
-                          if (
-                            link.href.startsWith("/#") &&
-                            window.location.pathname === "/"
-                          ) {
+                          // If we're already on home page, handle scroll manually
+                          if (window.location.pathname === "/") {
+                            e.preventDefault();
+                            const element =
+                              document.getElementById("kind-words");
+                            if (element) {
+                              element.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start",
+                              });
+                            }
+                          }
+                          // Otherwise let Link navigate to /#kind-words
+                        }}
+                      >
+                        {link.name}
+                      </Link>
+                    ) : link.href.startsWith("/#") ? (
+                      <Link
+                        to={link.href}
+                        className="text-2xl font-serif italic text-slate-300 hover:text-violet-400 block py-2 border-b border-white/5"
+                        onClick={(e) => {
+                          setIsOpen(false);
+
+                          if (window.location.pathname === "/") {
                             e.preventDefault();
                             const elementId = link.href.replace("/#", "");
-                            setTimeout(() => {
-                              const element =
-                                document.getElementById(elementId);
-                              if (element) {
-                                element.scrollIntoView({
-                                  behavior: "smooth",
-                                  block: "start",
-                                });
-                              }
-                            }, 300);
+                            const element = document.getElementById(elementId);
+                            if (element) {
+                              element.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start",
+                              });
+                            }
                           }
-                          // Otherwise let the Link component handle navigation normally
                         }}
                       >
                         {link.name}
