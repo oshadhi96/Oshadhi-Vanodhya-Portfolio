@@ -1,6 +1,5 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { Github, Linkedin, Mail, Instagram } from "lucide-react";
-import { Button } from "./ui/button";
 
 // Medium icon
 const Medium = ({ className }) => (
@@ -37,12 +36,12 @@ const Behance = ({ className }) => (
 const CURRENT_YEAR = new Date().getFullYear();
 
 const QUICK_LINKS = [
-  { name: "Home", href: "/", targetId: null },
-  { name: "Work", href: "/work", targetId: null },
-  { name: "Speaking", href: "/journal", targetId: null },
-  { name: "About", href: "/about", targetId: null },
-  { name: "Resources", href: "/resources", targetId: null },
-  { name: "Contact", href: "/contact", targetId: null },
+  { name: "Home", href: "/" },
+  { name: "Work", href: "/work" },
+  { name: "Speaking", href: "/journal" },
+  { name: "About", href: "/about" },
+  { name: "Resources", href: "/resources" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const SOCIAL_LINKS = [
@@ -50,74 +49,25 @@ const SOCIAL_LINKS = [
     name: "LinkedIn",
     icon: Linkedin,
     href: "https://www.linkedin.com/in/oshadhi-vanodhya/",
-    label: "Visit Oshadhi's LinkedIn profile",
   },
   {
     name: "Instagram",
     icon: Instagram,
     href: "https://www.instagram.com/oshadhi.ux/",
-    label: "Visit Oshadhi's Instagram profile",
   },
-  {
-    name: "Medium",
-    icon: Medium,
-    href: "https://medium.com/@vanodhyaoshadhi",
-    label: "Visit Oshadhi's Medium profile",
-  },
+  { name: "Medium", icon: Medium, href: "https://medium.com/@vanodhyaoshadhi" },
   {
     name: "Behance",
     icon: Behance,
     href: "https://www.behance.net/vanodhyaoshadhi",
-    label: "Visit Oshadhi's Behance profile",
   },
-  {
-    name: "GitHub",
-    icon: Github,
-    href: "https://github.com/oshadhi-vanodhya",
-    label: "Visit Oshadhi's GitHub profile",
-  },
+  { name: "GitHub", icon: Github, href: "https://github.com/oshadhi-vanodhya" },
 ];
 
-// Smooth scroll helper
-const handleSmoothScroll = (e, targetId) => {
-  if (window.location.pathname === "/") {
-    e.preventDefault();
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-};
-
-export function Footer() {
-  const handleNavClick = useCallback((e, link) => {
-    if (link.name === "Home") {
-      if (window.location.pathname === "/") {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-      return;
-    }
-
-    if (
-      link.name === "Contact" ||
-      link.name === "Resources" ||
-      link.name === "About"
-    ) {
-      return;
-    }
-
-    if (link.targetId) {
-      handleSmoothScroll(e, link.targetId);
-    }
-  }, []);
-
+export const Footer = memo(() => {
   return (
-    <footer
-      id="footer"
-      className="bg-[#020617] border-t border-white/5 pt-20 pb-8 relative overflow-hidden"
-    >
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+    <footer className="bg-[#020617] border-t border-white/5 pt-20 pb-8 relative">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="lg:col-span-5 flex flex-col gap-6">
@@ -136,17 +86,13 @@ export function Footer() {
               thoughtful, human-centered design.
             </p>
 
-            <div className="flex gap-4 mt-2">
-              <Button
-                asChild
-                className="rounded-full bg-violet-600 text-white hover:bg-violet-700 px-6 h-11 shadow-[0_0_20px_-5px_rgba(124,58,237,0.5)]"
-              >
-                <a href="mailto:oshadhi.ux@gmail.com">
-                  <Mail className="mr-2 h-4 w-4" />
-                  oshadhi.ux@gmail.com
-                </a>
-              </Button>
-            </div>
+            <a
+              href="mailto:oshadhi.ux@gmail.com"
+              className="inline-flex items-center gap-2 rounded-full bg-violet-600 hover:bg-violet-700 text-white px-6 h-11 shadow-[0_0_20px_-5px_rgba(124,58,237,0.5)] transition-colors"
+            >
+              <Mail className="h-4 w-4" />
+              oshadhi.ux@gmail.com
+            </a>
           </div>
 
           {/* Quick Links */}
@@ -159,8 +105,7 @@ export function Footer() {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-slate-400 hover:text-violet-400 transition-colors inline-block"
-                    onClick={(e) => handleNavClick(e, link)}
+                    className="text-slate-400 hover:text-violet-400 transition-colors"
                   >
                     {link.name}
                   </a>
@@ -176,19 +121,16 @@ export function Footer() {
             </h3>
             <ul className="space-y-4">
               {SOCIAL_LINKS.map((social) => {
-                const IconComponent = social.icon;
+                const Icon = social.icon;
                 return (
                   <li key={social.name}>
                     <a
                       href={social.href}
-                      className="flex items-center gap-3 text-slate-400 hover:text-violet-400 group transition-colors"
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={social.label}
+                      className="flex items-center gap-3 text-slate-400 hover:text-violet-400 transition-colors"
                     >
-                      <span className="p-2 rounded-full bg-white/5 border border-white/5 group-hover:border-violet-500/30 group-hover:bg-violet-500/10 transition-all">
-                        <IconComponent className="h-4 w-4" />
-                      </span>
+                      <Icon className="h-4 w-4" />
                       {social.name}
                     </a>
                   </li>
@@ -201,17 +143,9 @@ export function Footer() {
         {/* Bottom */}
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500 font-light">
           <p className="text-[rgb(156,169,186)]">
-            &copy; {CURRENT_YEAR} Oshadhi Vanodhya. Built by Oshi with ♥️
+            &copy; {CURRENT_YEAR} Oshadhi Vanodhya. Built with ♥️ by Oshi
           </p>
-
           <div className="flex flex-wrap justify-center gap-6">
-            <span
-              className="flex items-center gap-1.5 text-[rgb(156,168,186)] text-[13px]"
-              title="Web Content Accessibility Guidelines 2.1 AA Compliant"
-            >
-              <span className="h-2 w-2 rounded-full bg-yellow-500/80"></span>
-              WCAG 2.1 AA Accessible
-            </span>
             <a
               href="#"
               className="hover:text-violet-400 transition-colors text-[rgb(156,169,186)]"
@@ -223,4 +157,4 @@ export function Footer() {
       </div>
     </footer>
   );
-}
+});
