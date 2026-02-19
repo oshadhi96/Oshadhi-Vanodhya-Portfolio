@@ -108,6 +108,7 @@ export default function App() {
               />
             </Routes>
           </PageTransition>
+          <Footer />
         </div>
       </div>
     </AuthProvider>
