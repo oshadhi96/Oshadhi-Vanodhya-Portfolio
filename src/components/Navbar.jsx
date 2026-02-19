@@ -43,7 +43,7 @@ export function Navbar() {
     { name: "Work", href: "/work" },
     { name: "Speaking & Journal", href: "/journal" },
     { name: "About", href: "/about" },
-    { name: "Testimonials", href: "#kind-words", isHash: true },
+    { name: "Testimonials", href: "#kind-words" },
     { name: "Resources", href: "/resources" },
   ];
 
