@@ -233,12 +233,23 @@ export function AboutPage() {
               <div className="relative w-48 sm:w-56 md:w-64 lg:w-80">
                 {/* Decorative Offset Border — sibling to image, shifted behind it */}
                 <div
-                  className="absolute inset-0 border border-teal-500/20 rounded-full transition-transform duration-500 group-hover:translate-x-4 group-hover:translate-y-4"
-                  style={{ transform: "translate(8px, 8px)" }}
+                  className="absolute inset-0 transition-transform duration-500 group-hover:translate-x-4 group-hover:translate-y-4"
+                  style={{
+                    borderRadius: "9999px",
+                    border: "1px solid rgba(45,212,191,0.2)",
+                    transform: "translate(8px, 8px)",
+                  }}
                 />
 
                 {/* Main Image Container - Pill Shape */}
-                <div className="relative w-full aspect-[3/4] rounded-full overflow-hidden border border-white/10 bg-slate-800 shadow-2xl z-10 transition-transform duration-500 group-hover:-translate-y-1">
+                <div
+                  className="relative w-full aspect-[3/4] bg-slate-800 shadow-2xl z-10 transition-transform duration-500 group-hover:-translate-y-1"
+                  style={{
+                    borderRadius: "9999px",
+                    overflow: "hidden",
+                    WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+                  }}
+                >
                   <motion.img
                     src={profileImage}
                     alt="Oshadhi Vanodhya"
@@ -267,7 +278,13 @@ export function AboutPage() {
                   />
 
                   {/* Inner Gradient Overlay */}
-                  <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-full bg-gradient-to-t from-slate-900/30 to-transparent pointer-events-none" />
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent pointer-events-none"
+                    style={{
+                      borderRadius: "9999px",
+                      boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)",
+                    }}
+                  />
                 </div>
               </div>
             </div>
